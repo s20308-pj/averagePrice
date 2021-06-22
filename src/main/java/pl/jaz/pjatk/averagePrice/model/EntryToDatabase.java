@@ -15,7 +15,7 @@ import java.util.Date;
 public class EntryToDatabase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "Number ID", required = false, dataType = "Long")
+    @ApiModelProperty(notes = "Number ID", required = true, dataType = "Long")
     private Long id;
     @ApiModelProperty(notes = "Currency name", required = true, dataType = "String")
     private String currency;
@@ -24,21 +24,21 @@ public class EntryToDatabase {
     @ApiModelProperty(notes = "Average prise from number of days", required = true, dataType = "Double")
     private Double averagePrice;
     @ApiModelProperty(notes = "Date and hour when average price was taken", required = true, dataType = "String")
-    private String date;
+    private final String createdDate = createDate();
 
     public EntryToDatabase() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd HH");
-        this.date = dateFormat.format(date);
     }
 
     public EntryToDatabase(String currency, Integer numberOfDays, Double averagePrice) {
         this.currency = currency;
         this.numberOfDays = numberOfDays;
         this.averagePrice = averagePrice;
+    }
+
+    private String createDate() {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd HH");
-        this.date = dateFormat.format(date);
+        return dateFormat.format(date);
     }
 
     public Long getId() {
@@ -69,8 +69,7 @@ public class EntryToDatabase {
         this.averagePrice = averagePrice;
     }
 
-    public String getDate() {
-        return date;
+    public String getCreatedDate() {
+        return createdDate;
     }
-
 }
